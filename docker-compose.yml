@@ -1,0 +1,46 @@
+version: '3'
+services:
+  rabbit_node:
+    image: 'bitnami/rabbitmq:latest'
+    env_file:
+      - .env
+    healthcheck:
+      timeout: 5s
+      interval: 5s
+      retries: 5
+      test:
+        - "CMD"
+        - "rabbitmqctl"
+        - "status"
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - no-internet
+      - has-internet
+  minio:
+    image: minio/minio
+    env_file:
+      - .env
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - ./minio_storage:/data
+    command: server --console-address ":9001" /data  
+  crypto_hub:
+    build: .
+    env_file:
+      - .env
+    networks:
+      - no-internet
+      - has-internet
+    volumes:
+      - ./:/usr/src/crypto_hub/
+networks:
+  no-internet:
+    driver: bridge
+    internal: true
+  has-internet:
+    driver: host
+    external: true
