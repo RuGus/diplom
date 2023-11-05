@@ -5,8 +5,15 @@ RPC_REQUEST_SCHEMA = {
     "type": "object",
     "properties": {
         "jsonrpc": {"type": "string"},
-        "method": {"type": "string"},
-        "params": {"type": "string"},  # pipline_id
+        "method": {"type": "string"},  # pipline
+        "params": {
+            "type": "array",
+            "prefixItems": [
+                {"type": "string"},  # bucket_name
+                {"type": "string"},  # object_name
+            ],
+            "items": False,
+        },
         "id": {"type": "string"},  # UID
     },
     "required": ["jsonrpc", "method", "params", "id"],
@@ -26,9 +33,10 @@ def is_valid_rpc_request(request_body: str):
 def get_params_from_request(request_body: str):
     if is_valid_rpc_request(request_body):
         request_dict = json.loads(request_body)
-        pipline = request_dict["params"]
+        pipline = request_dict["method"]
         request_id = request_dict["id"]
-        return request_id, pipline
+        bucket_name, object_name = request_dict["params"]
+        return request_id, pipline, bucket_name, object_name
     else:
         raise Exception("Invalid rpc request")
 
