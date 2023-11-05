@@ -27,7 +27,10 @@ services:
       - "9001:9001"
     volumes:
       - ./minio_storage:/data
-    command: server --console-address ":9001" /data  
+    networks:
+      - no-internet
+      - has-internet
+    command: server --address 0.0.0.0:9000 --console-address ":9001" /data
   crypto_hub:
     build: .
     env_file:
