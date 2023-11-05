@@ -1,13 +1,12 @@
 import pika, threading
+from src.rpc import get_params_from_request, get_error_responce, get_result_responce
 
 
 class CryptoHubWorker(threading.Thread):
-    def __init__(self, worker_id):
-        self.worker_id = worker_id
+    def __init__(self):
         threading.Thread.__init__(self)
 
     def run(self):
-        print(f"Worker {self.worker_id} start")
         self.connection = pika.BlockingConnection(
             pika.ConnectionParameters(
                 "localhost", credentials=pika.PlainCredentials("user", "bitnami")
@@ -19,23 +18,18 @@ class CryptoHubWorker(threading.Thread):
         self.channel.basic_consume(
             queue="rpc_queue", on_message_callback=self.on_request
         )
-        print(" [x] Awaiting RPC requests")
         self.channel.start_consuming()
 
-    def fib(self, n):
-        if n == 0:
-            return 0
-        elif n == 1:
-            return 1
-        else:
-            return self.fib(n - 1) + self.fib(n - 2)
+    def workload(self, request_body):
+        try:
+            request_id, pipline = get_params_from_request(request_body)
+            result_file_path = ""
+        except Exception as exc:
+            return get_error_responce(str(exc))
+        return get_result_responce(result_file_path, request_id)
 
     def on_request(self, ch, method, props, body):
-        n = int(body)
-
-        print(f" [.] {self.worker_id=} fib({n})")
-        response = self.fib(n)
-
+        response = self.workload(body)
         ch.basic_publish(
             exchange="",
             routing_key=props.reply_to,
