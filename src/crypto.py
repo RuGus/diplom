@@ -1,23 +1,20 @@
+import os
 
 
-
-def apply_pipline():
+def apply_pipline(pipline, file_path):
     pass
 
-def sign_file():
-    pass
 
-def encrypt_file():
-    pass
+def sign_file(file_path):
+    result_file_path = os.path.join(file_path, prefix)
+    return result_file_path
 
-def decrypt_file():
-    pass
 
-def unsign_file():
-    pass
+def encrypt_file(file_path):
+    result_file_path = os.path.join(file_path, prefix)
+    return result_file_path
 
-def pack_file():
-    pass
 
-def unpack_file():
-    pass
+def pack_file(file_path):
+    result_file_path = os.path.join(file_path, prefix)
+    return result_file_path

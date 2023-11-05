@@ -36,7 +36,7 @@ class CryptoHubWorker(threading.Thread):
                 os.remove(source_file_name)
             get_file(self.s3_client, bucket_name, object_name, source_file_name)
             # Выполнить операции
-            result_file_path = apply_pipline(source_file_name)
+            result_file_path = apply_pipline(pipline, source_file_name)
             result_object_name = os.path.basename(result_file_path)
             # Запушить файл
             result_bucket_name = bucket_name + PROCESSED_DIR
