@@ -5,7 +5,6 @@ class Threaded_worker(threading.Thread):
     def __init__(self, worker_id):
         self.worker_id = worker_id
         threading.Thread.__init__(self)
-    def run(self):
         print(f"Worker {self.worker_id} start")
         self.connection = pika.BlockingConnection(
             pika.ConnectionParameters(
@@ -18,6 +17,8 @@ class Threaded_worker(threading.Thread):
         self.channel.basic_consume(
             queue="rpc_queue", on_message_callback=self.on_request
         )
+    def run(self):
+
         print(" [x] Awaiting RPC requests")
         self.channel.start_consuming()
 

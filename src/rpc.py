@@ -50,10 +50,13 @@ def get_error_responce(err_msg: str, request_id=None, err_code=-32600):
     return json.dumps(responce_dict)
 
 
-def get_result_responce(result: str, request_id: str):
+def get_result_responce(bucket_name: str, object_name: str, request_id: str):
     responce_dict = {
         "jsonrpc": "2.0",
-        "result": result,
+        "result": {
+            "bucket_name": bucket_name,
+            "object_name": object_name,
+        },
         "id": request_id,
     }
     return json.dumps(responce_dict)

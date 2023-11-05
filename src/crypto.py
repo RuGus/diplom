@@ -1,7 +1,8 @@
 
 
 
-
+def apply_pipline():
+    pass
 
 def sign_file():
     pass
