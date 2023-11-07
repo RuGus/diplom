@@ -1,6 +1,7 @@
-SIMPLE_SGN = ("sgn",)
-SIMPLE_ENC = ("enc",)
-SIMPLE_PACK = ("pack",)
+# Декларация шагов пайплайна
+SIMPLE_SGN = ("sign_file", (None,))
+SIMPLE_ENC = ("encrypt_file", (None,))
+SIMPLE_PACK = ("pack_file", (None,))
 
 PIPELINES = {
     "pack_sgn_enc": (SIMPLE_PACK, SIMPLE_SGN, SIMPLE_ENC),
