@@ -1,5 +1,8 @@
 import json
+import sys
 from jsonschema.validators import validate
+from loguru import logger
+
 
 RPC_REQUEST_SCHEMA = {
     "type": "object",
@@ -22,6 +25,7 @@ RPC_REQUEST_SCHEMA = {
 
 
 def is_valid_rpc_request(request_body: str):
+    logger.info(f"Start with {request_body=}")
     try:
         request_dict = json.loads(request_body)
         validate(instance=request_dict, schema=RPC_REQUEST_SCHEMA)
@@ -31,14 +35,17 @@ def is_valid_rpc_request(request_body: str):
 
 
 def get_params_from_request(request_body: str):
+    logger.info(f"Start with {request_body=}")
     if is_valid_rpc_request(request_body):
+        sys.stdout.write(request_body)
         request_dict = json.loads(request_body)
         pipline = request_dict["method"]
         request_id = request_dict["id"]
         bucket_name, object_name = request_dict["params"]
+        logger.info(f"{request_id=}, {pipline=}, {bucket_name=}, {object_name=}")
         return request_id, pipline, bucket_name, object_name
     else:
-        raise Exception("Invalid rpc request")
+        raise Exception(f"Invalid rpc request [{request_body}]")
 
 
 def get_error_responce(err_msg: str, request_id=None, err_code=-32600):

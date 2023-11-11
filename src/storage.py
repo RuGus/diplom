@@ -1,6 +1,7 @@
 from minio import Minio
 from minio.error import S3Error
 from settings import MINIO_ROOT_PASSWORD, MINIO_HOST, MINIO_PORT, MINIO_ROOT_USER
+from loguru import logger
 
 
 def get_s3_client():
@@ -20,6 +21,7 @@ def get_file(client: Minio, bucket_name, object_name, file_path):
 
 
 def put_file(client: Minio, bucket_name, object_name, file_path):
+    logger.debug(f"{bucket_name=}, {object_name=}, {file_path=}")
     if not client.bucket_exists(bucket_name):
         client.make_bucket(bucket_name)
     client.fput_object(
