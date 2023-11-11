@@ -1,9 +1,19 @@
 import os
-import pika, threading
-from rpc import get_params_from_request, get_error_responce, get_result_responce
-from storage import get_s3_client, get_file, put_file
-from settings import TMP_DIR, PROCESSED_DIR
+import threading
+
+import pika
 from crypto import apply_pipline
+from rpc import get_error_responce, get_params_from_request, get_result_responce
+from settings import (
+    PROCESSED_DIR,
+    RMQ_HOST,
+    RMQ_PASSWORD,
+    RMQ_PORT,
+    RMQ_USER,
+    RMQ_WORKLOAD_QUEUE,
+    TMP_DIR,
+)
+from storage import get_file, get_s3_client, put_file
 
 
 class CryptoHubWorker(threading.Thread):
@@ -11,14 +21,16 @@ class CryptoHubWorker(threading.Thread):
         threading.Thread.__init__(self)
         self.connection = pika.BlockingConnection(
             pika.ConnectionParameters(
-                "localhost", credentials=pika.PlainCredentials("user", "bitnami")
+                RMQ_HOST,
+                RMQ_PORT,
+                credentials=pika.PlainCredentials(RMQ_USER, RMQ_PASSWORD),
             )
         )
         self.channel = self.connection.channel()
-        self.channel.queue_declare(queue="rpc_queue")
+        self.channel.queue_declare(queue=RMQ_WORKLOAD_QUEUE)
         self.channel.basic_qos(prefetch_count=1)
         self.channel.basic_consume(
-            queue="rpc_queue", on_message_callback=self.on_request
+            queue=RMQ_WORKLOAD_QUEUE, on_message_callback=self.on_request
         )
         self.s3_client = get_s3_client()
 

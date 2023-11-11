@@ -35,6 +35,12 @@ services:
     build: .
     env_file:
       - .env
+    links:
+      - rabbit_node
+      - minio
+    depends_on:
+      - rabbit_node
+      - minio
     networks:
       - no-internet
       - has-internet
