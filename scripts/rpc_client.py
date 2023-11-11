@@ -1,14 +1,22 @@
 import json
+import os
 import pika
 import uuid
+
+RMQ_USER = os.environ.get("RMQ_USER", "user")
+RMQ_PASSWORD = os.environ.get("RMQ_PASSWORD", "bitnami")
+RMQ_HOST = os.environ.get("RMQ_HOST", "localhost")
+RMQ_PORT = int(os.environ.get("RMQ_PORT", 5672))
 
 
 class RpcClient(object):
     def __init__(self, json_rpc_request):
-        print(f" [x] Requesting \n{json_rpc_request=}\n\n\n")
+        print(f"Requesting {json_rpc_request=}\n")
         self.connection = pika.BlockingConnection(
             pika.ConnectionParameters(
-                "localhost", credentials=pika.PlainCredentials("user", "bitnami")
+                RMQ_HOST,
+                RMQ_PORT,
+                credentials=pika.PlainCredentials(RMQ_USER, RMQ_PASSWORD),
             )
         )
 
@@ -40,7 +48,7 @@ class RpcClient(object):
             body=str(json_rpc_request),
         )
         self.connection.process_data_events(time_limit=None)
-        print(f"For \n{json_rpc_request=}\n got \n{str(self.response)}\n")
+        print(f"Got {str(self.response)}\n")
 
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:
