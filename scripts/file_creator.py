@@ -6,6 +6,7 @@ MINIO_ROOT_PASSWORD = os.environ.get("MINIO_ROOT_PASSWORD")
 MINIO_HOST = os.environ.get("MINIO_HOST", "minio")
 MINIO_PORT = int(os.environ.get("MINIO_PORT", 9000))
 BUCKET = "new-bucket"
+FILES_COUNT = 100
 
 s3_client = Minio(
     f"{MINIO_HOST}:{MINIO_PORT}",
@@ -16,7 +17,7 @@ s3_client = Minio(
 if not s3_client.bucket_exists(BUCKET):
     s3_client.make_bucket(BUCKET)
 
-for i in range(10):
+for i in range(FILES_COUNT):
     file_name = f"{i}.txt"
     with open(file_name, "w") as file:
         file.write(str(i))

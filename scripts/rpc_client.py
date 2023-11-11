@@ -1,3 +1,5 @@
+from concurrent.futures import ThreadPoolExecutor
+import copy
 import json
 import os
 import pika
@@ -7,7 +9,7 @@ RMQ_USER = os.environ.get("RMQ_USER", "user")
 RMQ_PASSWORD = os.environ.get("RMQ_PASSWORD", "bitnami")
 RMQ_HOST = os.environ.get("RMQ_HOST", "localhost")
 RMQ_PORT = int(os.environ.get("RMQ_PORT", 5672))
-
+FILES_COUNT = 100
 
 class RpcClient(object):
     def __init__(self, json_rpc_request):
@@ -48,19 +50,22 @@ class RpcClient(object):
             body=str(json_rpc_request),
         )
         self.connection.process_data_events(time_limit=None)
-        print(f"Got {str(self.response)}\n")
+        print(f"Got {self.response.decode('utf-8')}\n")
 
     def on_response(self, ch, method, props, body):
         if self.corr_id == props.correlation_id:
             self.response = body
 
 
-a = {
-    "jsonrpc": "2.0",
-    "method": "pack_sgn_enc",
-    "params": ["pack-sgn-enc", "file.txt"],
-    "id": "UID",
-}
-json_rpc_request = json.dumps(a)
+def get_rpc_request(file_num: int):
+    request_dict = {
+        "jsonrpc": "2.0",
+        "method": "pack_sgn_enc",
+        "params": ["new-bucket", f"{file_num}.txt"],
+        "id": f"{file_num}",
+    }
+    return json.dumps(request_dict)
 
-RpcClient(json_rpc_request)
+
+with ThreadPoolExecutor(4) as executor:
+    executor.map(RpcClient, [get_rpc_request(num) for num in range(FILES_COUNT)])
