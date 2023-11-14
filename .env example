@@ -11,3 +11,4 @@ OPENSSL_PATH=/usr/bin/openssl
 CERT_PATH=/usr/src/crypto_hub/demo_certs/cert.pem
 KEY_PATH=/usr/src/crypto_hub/demo_certs/private.pem
 WORKERS_COUNT=2
+LOG_LEVEL=INFO
