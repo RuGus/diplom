@@ -1,0 +1,13 @@
+name: Black linter + isort
+
+on: [push, pull_request]
+
+jobs:
+  apply_linter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: chartboost/ruff-action@v1
+        with:
+          src: "./src"
+          args: check

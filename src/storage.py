@@ -1,8 +1,7 @@
 import minio
 
 from src.logs import logger
-from src.settings import (MINIO_HOST, MINIO_PORT, MINIO_ROOT_PASSWORD,
-                          MINIO_ROOT_USER)
+from src.settings import MINIO_HOST, MINIO_PORT, MINIO_ROOT_PASSWORD, MINIO_ROOT_USER
 
 
 def get_s3_client():
