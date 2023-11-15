@@ -1,5 +1,6 @@
 import pika
-from settings import (
+
+from src.settings import (
     RMQ_HOST,
     RMQ_PASSWORD,
     RMQ_PORT,
@@ -16,3 +17,7 @@ def get_rmq_connection():
         )
     )
     return connection
+
+
+def get_publish_properties(**kwargs):
+    return pika.BasicProperties(**kwargs)

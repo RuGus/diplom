@@ -1,8 +1,6 @@
-import sys
-from logs import logger
-
-from settings import WORKERS_COUNT
-from worker import CryptoHubWorker
+from src.logs import logger
+from src.settings import WORKERS_COUNT
+from src.worker import CryptoHubWorker
 
 if __name__ == "__main__":
     logger.info("Start workers")
@@ -11,4 +9,4 @@ if __name__ == "__main__":
             worker_tread = CryptoHubWorker(worker_id)
             worker_tread.start()
     except Exception as exc:
-        sys.stdout.write(f"Can't start API application: {str(exc)}")
+        logger.error(f"Can't start workers: {str(exc)}")

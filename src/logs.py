@@ -1,4 +1,7 @@
-from loguru import logger
-from settings import LOG_LEVEL
+import sys
 
-logger.add(level=LOG_LEVEL, serialize=True)
+from loguru import logger
+
+from src.settings import LOG_LEVEL
+
+logger.add(sys.stdout, level=LOG_LEVEL, serialize=True)

@@ -1,18 +1,16 @@
 import os
-import sys
 import threading
-from loguru import logger
 
-import pika
-from amqp import get_rmq_connection
-from crypto import apply_pipline
-from rpc import get_error_responce, get_params_from_request, get_result_responce
-from settings import (
+from src.amqp import get_publish_properties, get_rmq_connection
+from src.crypto import apply_pipline
+from src.logs import logger
+from src.rpc import get_error_responce, get_params_from_request, get_result_responce
+from src.settings import (
     PROCESSED_DIR,
     RMQ_WORKLOAD_QUEUE,
     TMP_DIR,
 )
-from storage import get_file, get_s3_client, put_file
+from src.storage import get_file, get_s3_client, put_file
 
 
 class CryptoHubWorker(threading.Thread):
@@ -55,12 +53,11 @@ class CryptoHubWorker(threading.Thread):
 
     def on_request(self, ch, method, props, body: bytes):
         body = body.decode()
-        sys.stdout.write(body)
         response = self.workload(body)
         ch.basic_publish(
             exchange="",
             routing_key=props.reply_to,
-            properties=pika.BasicProperties(correlation_id=props.correlation_id),
+            properties=get_publish_properties(correlation_id=props.correlation_id),
             body=str(response),
         )
         ch.basic_ack(delivery_tag=method.delivery_tag)

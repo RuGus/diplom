@@ -2,9 +2,10 @@ import os
 from copy import copy
 from subprocess import PIPE, Popen
 from zipfile import ZIP_DEFLATED, ZipFile
-from loguru import logger
-from constants.pipelines import PIPELINES
-from settings import CERT_PATH, KEY_PATH, OPENSSL_PATH
+
+from src.constants.pipelines import PIPELINES
+from src.logs import logger
+from src.settings import CERT_PATH, KEY_PATH, OPENSSL_PATH
 
 
 def apply_pipline(pipline, file_path):
@@ -22,7 +23,7 @@ def simple_sign_file(file_path):
     logger.info(f"Start with {file_path=}")
     result_file_path = file_path + ".sgn"
     if os.path.exists(result_file_path):
-        os.remove(result_file_path)    
+        os.remove(result_file_path)
     cmd_items = (
         OPENSSL_PATH,
         "cms",
@@ -66,7 +67,7 @@ def simple_encrypt_file(file_path):
 
 
 def simple_pack_file(file_path):
-    logger.info(f"Start with {file_path=}")    
+    logger.info(f"Start with {file_path=}")
     result_file_path = file_path + ".zip"
     if os.path.exists(result_file_path):
         os.remove(result_file_path)

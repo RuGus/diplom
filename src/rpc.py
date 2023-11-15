@@ -1,8 +1,8 @@
 import json
-import sys
-from jsonschema.validators import validate
-from loguru import logger
 
+from jsonschema.validators import validate
+
+from src.logs import logger
 
 RPC_REQUEST_SCHEMA = {
     "type": "object",
@@ -37,7 +37,6 @@ def is_valid_rpc_request(request_body: str):
 def get_params_from_request(request_body: str):
     logger.info(f"Start with {request_body=}")
     if is_valid_rpc_request(request_body):
-        sys.stdout.write(request_body)
         request_dict = json.loads(request_body)
         pipline = request_dict["method"]
         request_id = request_dict["id"]
@@ -48,7 +47,7 @@ def get_params_from_request(request_body: str):
         raise Exception(f"Invalid rpc request [{request_body}]")
 
 
-def get_error_responce(err_msg: str, request_id=None, err_code=-32600):
+def get_error_responce(err_msg: str, request_id: str = None, err_code: int = -32600):
     responce_dict = {
         "jsonrpc": "2.0",
         "error": {"code": err_code, "message": err_msg},
