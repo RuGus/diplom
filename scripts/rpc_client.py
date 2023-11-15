@@ -12,6 +12,7 @@ RMQ_HOST = os.environ.get("RMQ_HOST", "localhost")
 RMQ_PORT = int(os.environ.get("RMQ_PORT", 5672))
 FILES_COUNT = 100
 
+
 class RpcClient(object):
     def __init__(self, json_rpc_request):
         print(f"Requesting {json_rpc_request=}\n")
