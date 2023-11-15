@@ -29,7 +29,7 @@ def is_valid_rpc_request(request_body: str):
     try:
         request_dict = json.loads(request_body)
         validate(instance=request_dict, schema=RPC_REQUEST_SCHEMA)
-    except Exception as exc:
+    except Exception:
         return False
     return True
 

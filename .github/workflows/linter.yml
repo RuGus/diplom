@@ -1,4 +1,4 @@
-name: Black linter + isort
+name: RUFF linter
 
 on: [push, pull_request]
 
