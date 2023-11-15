@@ -4,12 +4,9 @@ import threading
 from src.amqp import get_publish_properties, get_rmq_connection
 from src.crypto import apply_pipline
 from src.logs import logger
-from src.rpc import get_error_responce, get_params_from_request, get_result_responce
-from src.settings import (
-    PROCESSED_DIR,
-    RMQ_WORKLOAD_QUEUE,
-    TMP_DIR,
-)
+from src.rpc import (get_error_responce, get_params_from_request,
+                     get_result_responce)
+from src.settings import PROCESSED_DIR, RMQ_WORKLOAD_QUEUE, TMP_DIR
 from src.storage import get_file, get_s3_client, put_file
 
 

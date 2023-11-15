@@ -1,4 +1,5 @@
 import os
+
 from minio import Minio
 
 MINIO_ROOT_USER = os.environ.get("MINIO_ROOT_USER")

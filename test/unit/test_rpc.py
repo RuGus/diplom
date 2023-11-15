@@ -1,12 +1,8 @@
-import unittest
 import json
-from src.rpc import (
-    is_valid_rpc_request,
-    get_params_from_request,
-    get_error_responce,
-    get_result_responce,
-)
+import unittest
 
+from src.rpc import (get_error_responce, get_params_from_request,
+                     get_result_responce, is_valid_rpc_request)
 
 TEST_ERR_MSG = "test_error"
 TEST_ERR_CODE = 404

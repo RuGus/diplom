@@ -1,8 +1,7 @@
 import unittest
-from unittest.mock import Mock, patch, MagicMock
+from unittest.mock import MagicMock, Mock, patch
 
 from src.storage import del_file, get_file, get_s3_client, put_file
-
 
 TEST_BUCKET = "test_bucket"
 TEST_OBJECT = "test_object"

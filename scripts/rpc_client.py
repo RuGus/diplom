@@ -1,9 +1,10 @@
-from concurrent.futures import ThreadPoolExecutor
 import copy
 import json
 import os
-import pika
 import uuid
+from concurrent.futures import ThreadPoolExecutor
+
+import pika
 
 RMQ_USER = os.environ.get("RMQ_USER", "user")
 RMQ_PASSWORD = os.environ.get("RMQ_PASSWORD", "bitnami")
