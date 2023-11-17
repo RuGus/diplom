@@ -1,3 +1,4 @@
+"""Модуль работы с криптографией"""
 import os
 from copy import copy
 from subprocess import PIPE, Popen

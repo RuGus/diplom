@@ -1,3 +1,4 @@
+"""Модуль работы с очередью"""
 import pika
 
 from src.settings import RMQ_HOST, RMQ_PASSWORD, RMQ_PORT, RMQ_USER

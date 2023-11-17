@@ -20,8 +20,8 @@ if not s3_client.bucket_exists(BUCKET):
 
 for i in range(FILES_COUNT):
     file_name = f"{i}.txt"
-    with open(file_name, "w") as file:
-        file.write(str(i))
+    with open(file_name, "w", encoding="utf-8") as file:
+        file.write(str(i * 1000))
     s3_client.fput_object(
         bucket_name=BUCKET, object_name=file_name, file_path=file_name
     )

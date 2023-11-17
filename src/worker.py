@@ -1,3 +1,4 @@
+"""Модуль обработчика заданий"""
 import os
 import threading
 

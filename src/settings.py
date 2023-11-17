@@ -2,21 +2,22 @@
 """Параметры окружения.
 
 Attributes:
-    RMQ_USER (): 
-    RMQ_PASSWORD (): 
-    RMQ_HOST (): 
-    RMQ_PORT (): 
-    RMQ_WORKLOAD_QUEUE (): 
-    MINIO_ROOT_USER (): 
-    MINIO_ROOT_PASSWORD (): 
-    MINIO_HOST (): 
-    MINIO_PORT (): 
-    TMP_DIR (): 
-    PROCESSED_DIR (): 
-    OPENSSL_PATH (): 
-    CERT_PATH (): 
-    KEY_PATH (): 
-    WORKERS_COUNT (): 
+    RMQ_USER (str): Логин RMQ
+    RMQ_PASSWORD (str): Пароль RMQ
+    RMQ_HOST (str): Хост RMQ
+    RMQ_PORT (int): Порт RMQ
+    RMQ_WORKLOAD_QUEUE (str): Название очереди с запросами
+    MINIO_ROOT_USER (str): Пользователь Minio
+    MINIO_ROOT_PASSWORD (str): Пароль Minio
+    MINIO_HOST (str): Хост Minio
+    MINIO_PORT (int): Порт Minio
+    TMP_DIR (str): Папка для временных файлов внутри контейнера
+    PROCESSED_DIR (str): Название папки для результатов в S3
+    OPENSSL_PATH (str): Путь до openssl
+    CERT_PATH (str): Путь к сертификату
+    KEY_PATH (str): Путь к ключу
+    WORKERS_COUNT (int): Количество обработчиков
+    LOG_LEVEL (str): Уровень логгирования
 
 """
 import os

@@ -1,3 +1,4 @@
+"""Модуль RPC"""
 import json
 
 from jsonschema.validators import validate

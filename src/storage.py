@@ -1,3 +1,4 @@
+"""Модуль работы с хранилищем"""
 import minio
 
 from src.logs import logger
